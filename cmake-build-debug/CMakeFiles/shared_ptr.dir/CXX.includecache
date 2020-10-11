@@ -7,7 +7,11 @@
 #IncludeRegexTransform: 
 
 ../include/header.hpp
-cstddef
+atomic
+-
+
+/Users/zahar/CLionProjects/lab-03-shared_ptr/sources/functions.cpp
+header.hpp
 -
 
 /Users/zahar/CLionProjects/lab-03-shared_ptr/sources/source.cpp
