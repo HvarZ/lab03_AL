@@ -1,0 +1,6 @@
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/tests.dir
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/test.dir
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/main.dir
+/Users/zahar/CLionProjects/lab-03-shared_ptr/cmake-build-debug/CMakeFiles/shared_ptr.dir
