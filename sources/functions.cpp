@@ -51,6 +51,7 @@ auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
   return *this;
 }
 
+
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr<T> &&r) noexcept -> SharedPtr<T> & {
   shared_ptr = std::move(r.shared_ptr);
