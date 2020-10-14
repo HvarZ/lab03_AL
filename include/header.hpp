@@ -7,7 +7,6 @@
 #include <mutex>
 #include <iostream>
 
-std::mutex mutex;
 using std::cout;
 using std::endl;
 
@@ -24,7 +23,7 @@ class SharedPtr {
   control_block* cb;
 
  public:
-  explicit SharedPtr() noexcept;
+  SharedPtr() noexcept;
   explicit SharedPtr(T* ptr) noexcept;
   SharedPtr(const SharedPtr& r) noexcept;
   SharedPtr(SharedPtr&& r) noexcept;

@@ -1,5 +1,6 @@
 #include <header.hpp>
 
+std::mutex mutex;
 
 void control_block::decrement() noexcept {
   std::lock_guard<std::mutex> lg(mutex);

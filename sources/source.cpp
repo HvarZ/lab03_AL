@@ -3,10 +3,5 @@
 #include <header.hpp>
 
 int main () {
-  int* it = new int [10];
-  SharedPtr<int> sh = SharedPtr<int>(it);
-
-  cout << endl;
-
   return 0;
 }
