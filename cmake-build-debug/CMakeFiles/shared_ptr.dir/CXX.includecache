@@ -9,9 +9,9 @@
 ../include/header.hpp
 atomic
 -
-
-/Users/zahar/CLionProjects/lab-03-shared_ptr/sources/functions.cpp
-header.hpp
+mutex
+-
+iostream
 -
 
 /Users/zahar/CLionProjects/lab-03-shared_ptr/sources/source.cpp
