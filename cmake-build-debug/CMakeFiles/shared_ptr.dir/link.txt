@@ -1,2 +1,0 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ar qc libshared_ptrd.a  CMakeFiles/shared_ptr.dir/sources/source.cpp.o CMakeFiles/shared_ptr.dir/sources/functions.cpp.o
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib libshared_ptrd.a
