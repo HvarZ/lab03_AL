@@ -12,6 +12,11 @@ void control_block::increment() noexcept {
   --counter;
 }
 
+auto control_block::get_counter() const noexcept -> size_t {
+  std::lock_guard<std::mutex> lg(mutex);
+  return counter;
+}
+
 template <typename T>
 SharedPtr<T>::SharedPtr() noexcept {
   shared_ptr = nullptr;
@@ -34,12 +39,18 @@ SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept {
 
 template <typename T>
 SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept {
-  shared_ptr = std::move(r.shared_ptr);
-  cb = std::move(r.cb);
+  shared_ptr = std::forward<T>(r.shared_ptr);
+  cb = std::forward<control_block>(r.cb);
 }
 
 template <typename T>
-SharedPtr<T>::~SharedPtr<T>() = default;
+SharedPtr<T>::~SharedPtr<T>() {
+  cb->decrement();
+  if (cb->get_counter() == 0) {
+    delete shared_ptr;
+    delete cb;
+  }
+}
 
 
 template <typename T>
@@ -55,16 +66,18 @@ auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
 
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr<T> &&r) noexcept -> SharedPtr<T> & {
-  shared_ptr = std::move(r.shared_ptr);
-  cb = std::move(r.cb);
+  shared_ptr = std::forward<T>(r.shared_ptr);
+  cb = std::forward<control_block>(r.cb);
   return *this;
 }
 
 template <typename T>
 auto SharedPtr<T>::operator==(const SharedPtr<T> &r) const -> bool {
-  return shared_ptr == r.shared_ptr && cb == r.cb;
+  return shared_ptr == r.shared_ptr;
 }
 
 
-//template <typename T>
-//SharedPtr<T>::
+template <typename T>
+SharedPtr<T>::operator bool() const noexcept {
+  return shared_ptr != nullptr;
+}

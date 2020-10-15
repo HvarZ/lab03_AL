@@ -14,6 +14,7 @@ struct control_block {
   std::atomic_uint counter;
   void increment() noexcept;
   void decrement() noexcept;
+  auto get_counter() const noexcept -> size_t;
 };
 
 template <typename T>
@@ -32,7 +33,7 @@ class SharedPtr {
   auto operator=(SharedPtr&& r) noexcept -> SharedPtr&;
 
   // проверяет, указывает ли указатель на объект
-  explicit operator bool() const;
+  explicit operator bool() const noexcept;
   auto operator*() const -> T&;
   auto operator->() const -> T*;
   auto operator==(const SharedPtr& r) const -> bool;
