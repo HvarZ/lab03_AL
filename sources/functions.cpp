@@ -39,8 +39,8 @@ SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept {
 
 template <typename T>
 SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept {
-  shared_ptr = std::forward<T>(r.shared_ptr);
-  cb = std::forward<control_block>(r.cb);
+  shared_ptr = std::move(r.shared_ptr);
+  cb = std::move(r.cb);
 }
 
 template <typename T>
@@ -66,8 +66,8 @@ auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
 
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr<T> &&r) noexcept -> SharedPtr<T> & {
-  shared_ptr = std::forward<T>(r.shared_ptr);
-  cb = std::forward<control_block>(r.cb);
+  shared_ptr = std::move(r.shared_ptr);
+  cb = std::move(r.cb);
   return *this;
 }
 
