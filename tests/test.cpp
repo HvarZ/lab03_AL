@@ -82,4 +82,3 @@ TEST(Function, use_count) {
     EXPECT_EQ(sh.use_count(), 2);
 }
 
-TEST()
