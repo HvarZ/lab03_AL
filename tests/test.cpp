@@ -38,7 +38,7 @@ TEST(Operator, copy) {
 TEST(Operator, Bool) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
-    EXPECT_EQ(bool(sh), true);
+    EXPECT_EQ(sh.operator bool(), true);
 }
 
 TEST(Operator, dereferencing) {
