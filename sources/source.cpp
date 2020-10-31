@@ -2,7 +2,7 @@
 
 #include <header.hpp>
 
-int main () {
+int main() {
   int* iter = new int (5);
   SharedPtr<int> sh(iter);
   return 0;
