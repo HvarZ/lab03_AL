@@ -1,4 +1,4 @@
-// Copyright 2018 Your Name <your_email>
+// Copyright 2018 Zakhar Ushakov <hvarzahar@gmail.com>
 
 #ifndef INCLUDE_HEADER_HPP_
 #define INCLUDE_HEADER_HPP_
@@ -37,8 +37,8 @@ class SharedPtr {
 
 
   explicit operator bool() const noexcept;
-  auto operator*() const -> T&;
-  auto operator->() const -> T*;
+  auto operator*() const noexcept -> T&;
+  auto operator->() const noexcept -> T*;
   auto operator==(const SharedPtr& r) const -> bool;
 
   auto get() const -> T*;
@@ -49,7 +49,6 @@ class SharedPtr {
 };
 
 
-std::mutex mutex;
 
 control_block::control_block() noexcept  : counter(0) {}
 
@@ -81,8 +80,8 @@ SharedPtr<T>::SharedPtr(T* ptr)  {
 template <typename T>
 SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept {
   shared_ptr = r.shared_ptr;
+  r.cb->increment();
   cb = r.cb;
-  cb->increment();
 }
 
 template <typename T>
@@ -105,8 +104,8 @@ template <typename T>
 auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
   if (this != r) {
     shared_ptr = r.shared_ptr;
+    r.cb->increment();
     cb = r.cb;
-    cb->increment();
   }
   return *this;
 }
@@ -132,12 +131,12 @@ SharedPtr<T>::operator bool() const noexcept {
 
 
 template <typename T>
-auto SharedPtr<T>::operator*() const -> T & {
+auto SharedPtr<T>::operator*() const noexcept -> T & {
   return *shared_ptr;
 }
 
 template <typename T>
-auto SharedPtr<T>::operator->() const -> T * {
+auto SharedPtr<T>::operator->() const noexcept -> T * {
   return shared_ptr;
 }
 
@@ -149,14 +148,14 @@ auto SharedPtr<T>::get() const -> T * {
 
 template <typename T>
 void SharedPtr<T>::reset() noexcept {
-  this->SharedPtr<T>::~SharedPtr();
+  this->~SharedPtr();
   shared_ptr = nullptr;
   cb = nullptr;
 }
 
 template <typename T>
 void SharedPtr<T>::reset(T *ptr) {
-  this->SharedPtr<T>::~SharedPtr();
+  this->~SharedPtr();
   shared_ptr = ptr;
   cb = new control_block;
   cb->increment();
