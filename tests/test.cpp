@@ -5,13 +5,12 @@
 
 
 TEST(Constructor, raw) {
-
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh2(sh);
 
     EXPECT_EQ(sh.get(), iter);
-    EXPECT_EQ(sh2.get(),iter);
+    EXPECT_EQ(sh2.get(), iter);
     EXPECT_EQ(sh.use_count(), 2);
     EXPECT_EQ(sh2.use_count(), 2);
 }
