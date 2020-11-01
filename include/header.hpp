@@ -150,17 +150,14 @@ auto SharedPtr<T>::get() const -> T * {
 
 template <typename T>
 void SharedPtr<T>::reset() noexcept {
-  this->~SharedPtr();
-  shared_ptr = nullptr;
-  cb = nullptr;
+  SharedPtr<T> sh;
+  this->swap(sh);
 }
 
 template <typename T>
 void SharedPtr<T>::reset(T *ptr) {
-  this->~SharedPtr();
-  shared_ptr = ptr;
-  cb = new control_block;
-  cb->increment();
+  SharedPtr<T> sh(ptr);
+  this->swap(sh);
 }
 
 template <typename T>

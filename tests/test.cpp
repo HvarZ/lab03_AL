@@ -4,17 +4,6 @@
 #include <gtest/gtest.h>
 
 
-/*TEST(Constructor, empty) {
-    SharedPtr<int> sh;
-    bool check;
-    if (sh.get() == nullptr) {
-      check = true;
-    }
-    else check = false;
-    sh.
-    EXPECT_EQ(check, true);
-}*/
-
 TEST(Constructor, raw) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
@@ -86,6 +75,22 @@ TEST(Function, swap) {
     int* iter2 = new int (6);
     SharedPtr<int> sh2(iter2);
     sh.swap(sh2);
+    EXPECT_EQ(sh.get(), iter2);
+}
+
+TEST(Function, reset) {
+    int* iter = new int (5);
+    SharedPtr<int> sh(iter);
+    SharedPtr<int> sh2;
+    sh.swap(sh2);
+    EXPECT_EQ(sh.get(), nullptr);
+}
+
+TEST(Function, reset_it) {
+    int* iter = new int (5);
+    int* iter2 = new int (6);
+    SharedPtr<int> sh(iter);
+    sh.reset(iter2);
     EXPECT_EQ(sh.get(), iter2);
 }
 
