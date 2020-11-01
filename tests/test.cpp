@@ -13,8 +13,9 @@ TEST(Constructor, raw) {
 TEST(Constructor, copy) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
-    const SharedPtr<int>& sh1(sh);
+    SharedPtr<int> sh1(sh);
     EXPECT_EQ(sh1.get(), iter);
+    EXPECT_EQ(sh.use_count(), 2);
 }
 
 TEST(Constructor, move) {
