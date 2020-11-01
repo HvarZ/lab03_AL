@@ -4,102 +4,134 @@
 #include <gtest/gtest.h>
 
 
-TEST(constructor, raw) {
+TEST(Constructor, raw) {
+
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
+    SharedPtr<int> sh2(sh);
+
     EXPECT_EQ(sh.get(), iter);
+    EXPECT_EQ(sh2.get(),iter);
+    EXPECT_EQ(sh.use_count(), 2);
+    EXPECT_EQ(sh2.use_count(), 2);
 }
 
-TEST(constructor, copy) {
+TEST(Constructor, copy) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1(sh);
+
+
     EXPECT_EQ(sh1.get(), iter);
     EXPECT_EQ(sh.use_count(), 2);
 }
 
-TEST(constructor, move) {
+TEST(Constructor, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1(std::move(sh));
+
+
     EXPECT_EQ(sh1.get(), iter);
+    EXPECT_EQ(sh.use_count(), 1);
 }
 
-TEST(oper, copy) {
+TEST(Operator, copy) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = sh;
+    SharedPtr<int> sh2 = sh;
+
+
     EXPECT_EQ(sh1.get(), iter);
+    EXPECT_EQ(sh1.use_count(), 3);
+    EXPECT_EQ(sh2.use_count(), 3);
 }
 
-TEST(oper, move) {
+TEST(Operator, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = std::move(sh);
+
+
     EXPECT_EQ(sh1.get(), iter);
+    EXPECT_EQ(sh1.use_count(), 1);
 }
 
-TEST(oper, Bool) {
+TEST(Operator, Bool) {
     SharedPtr<int> sh2;
     SharedPtr<int> sh(new int (5));
+
+
     EXPECT_EQ(sh.operator bool(), true);
     EXPECT_EQ(sh2.operator bool(), false);
 }
 
-TEST(oper, dereferencing) {
-    int* iter = new int (5);
-    SharedPtr<int> sh(iter);
+TEST(Operator, dereferencing) {
+    SharedPtr<int> sh(new int (5));
     EXPECT_EQ(*sh, 5);
 }
 
-TEST(oper, pointer) {
-    int* iter = new int (5);
-    SharedPtr<int> sh(iter);
-    EXPECT_EQ(sh.operator->(), iter);
+TEST(Operator, pointer) {
+    SharedPtr<int> sh(new int (5));
+    EXPECT_EQ(sh.operator->(), sh.get());
 }
 
-TEST(oper, equality) {
+TEST(Operator, equality) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     const SharedPtr<int>& sh2(sh);
+    SharedPtr<int> sh3;
+
     EXPECT_EQ(sh == sh2, true);
+    EXPECT_EQ(sh == sh3, false);
 }
 
-TEST(function, get) {
+TEST(Function, get) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
+
+
     EXPECT_EQ(sh.get(), iter);
 }
 
-TEST(function, swap) {
+TEST(Function, swap) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     int* iter2 = new int (6);
     SharedPtr<int> sh2(iter2);
     sh.swap(sh2);
+
     EXPECT_EQ(sh.get(), iter2);
+    EXPECT_EQ(sh.use_count(), 1);
 }
 
-TEST(function, reset) {
+TEST(Function, reset) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     sh.reset();
+
     EXPECT_EQ(sh.get(), nullptr);
 }
 
-TEST(function, reset_it) {
+TEST(Function, reset_it) {
     int* iter = new int (5);
     int* iter2 = new int (6);
     SharedPtr<int> sh(iter);
     sh.reset(iter2);
+
+
     EXPECT_EQ(sh.get(), iter2);
 }
 
-TEST(function, use_count) {
+TEST(Function, use_count) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     [[maybe_unused]] SharedPtr<int> sh2(sh);
+
+
     EXPECT_EQ(sh.use_count(), 2);
+    EXPECT_EQ(sh2.use_count(), 2);
 }
 
 TEST(control_block, constructor) {
