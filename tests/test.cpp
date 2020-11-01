@@ -37,20 +37,20 @@ TEST(Operator, move) {
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = std::move(sh);
     EXPECT_EQ(sh1.get(), iter);
-} */
+}
 
-/*TEST(Operator, Bool) {
+TEST(Operator, Bool) {
     SharedPtr<int> sh2;
     SharedPtr<int> sh(new int (5));
     EXPECT_EQ(sh.operator bool(), true);
     EXPECT_EQ(sh2.operator bool(), false);
-}*/
+}
 
 TEST(Operator, dereferencing) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     EXPECT_EQ(*sh, 5);
-}
+}*/
 
 TEST(Operator, pointer) {
     int* iter = new int (5);
