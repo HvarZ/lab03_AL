@@ -52,7 +52,7 @@ class SharedPtr {
 
 
 
-control_block::control_block() noexcept  : counter(0) {}
+control_block::control_block() noexcept  : counter(1) {}
 
 void control_block::increment() noexcept {
   ++counter;
@@ -76,20 +76,22 @@ template <typename T>
 SharedPtr<T>::SharedPtr(T* ptr)  {
   shared_ptr = ptr;
   cb = new control_block;
-  cb->increment();
 }
 
 template <typename T>
 SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept {
   shared_ptr = r.shared_ptr;
-  r.cb->increment();
   cb = r.cb;
+  if (cb) {
+    cb->increment();
+  }
 }
 
 template <typename T>
 SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept {
-  shared_ptr = std::move(r.shared_ptr);
-  cb = std::move(r.cb);
+  shared_ptr = r.shared_ptr;
+  cb = r.cb;
+  r.cb = nullptr;
 }
 
 template <typename T>
@@ -106,10 +108,8 @@ SharedPtr<T>::~SharedPtr<T>() {
 
 template <typename T>
 auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
-  if (this != r) {
-    shared_ptr = r.shared_ptr;
-    r.cb->increment();
-    cb = r.cb;
+  if (this != &r) {
+      SharedPtr<T>(r).swap(*this);
   }
   return *this;
 }
@@ -117,8 +117,9 @@ auto SharedPtr<T>::operator=(const SharedPtr<T> &r) -> SharedPtr<T> & {
 
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr<T> &&r) noexcept -> SharedPtr<T> & {
-  shared_ptr = std::move(r.shared_ptr);
-  cb = std::move(r.cb);
+  if (this != &r) {
+    SharedPtr<T>(r).swap(*this);
+  }
   return *this;
 }
 
@@ -170,7 +171,7 @@ void SharedPtr<T>::swap(SharedPtr<T> &r) {
 
 template <typename T>
 auto SharedPtr<T>::use_count() const -> size_t {
-  return cb->get_counter();
+  return cb ? cb->get_counter() : 0;
 }
 
 

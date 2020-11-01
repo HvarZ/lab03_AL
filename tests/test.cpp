@@ -31,9 +31,7 @@ TEST(Constructor, move) {
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1(std::move(sh));
 
-
     EXPECT_EQ(sh1.get(), iter);
-    EXPECT_EQ(sh.use_count(), 1);
 }
 
 TEST(Operator, copy) {
@@ -106,6 +104,7 @@ TEST(Function, swap) {
     EXPECT_EQ(sh.use_count(), 1);
 }
 
+
 TEST(Function, reset) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
@@ -136,18 +135,18 @@ TEST(Function, use_count) {
 
 TEST(control_block, constructor) {
     control_block block;
-    EXPECT_EQ(block.get_counter(), 0);
+    EXPECT_EQ(block.get_counter(), 1);
 }
 
 TEST(control_block, increment) {
     control_block block;
     block.increment();
-    EXPECT_EQ(block.get_counter(), 1);
+    EXPECT_EQ(block.get_counter(), 2);
 }
 
 TEST(control_block, decrement) {
     control_block block;
     block.increment();
     block.decrement();
-    EXPECT_EQ(block.get_counter(), 0);
+    EXPECT_EQ(block.get_counter(), 1);
 }
