@@ -25,7 +25,7 @@ TEST(Constructor, move) {
     EXPECT_EQ(sh1.get(), iter);
 }
 
-/*TEST(Operator, copy) {
+TEST(Operator, copy) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = sh;
@@ -63,7 +63,7 @@ TEST(Operator, equality) {
     SharedPtr<int> sh(iter);
     const SharedPtr<int>& sh2(sh);
     EXPECT_EQ(sh == sh2, true);
-}*/
+}
 
 TEST(Function, get) {
     int* iter = new int (5);
@@ -80,13 +80,12 @@ TEST(Function, swap) {
     EXPECT_EQ(sh.get(), iter2);
 }
 
-/*TEST(Function, reset) {
+TEST(Function, reset) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
-    SharedPtr<int> sh2;
-    sh.swap(sh2);
+    sh.reset();
     EXPECT_EQ(sh.get(), nullptr);
-}*/
+}
 
 TEST(Function, reset_it) {
     int* iter = new int (5);
