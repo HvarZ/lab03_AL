@@ -6,7 +6,13 @@
 
 /*TEST(Constructor, empty) {
     SharedPtr<int> sh;
-    EXPECT_EQ(sh.get(), nullptr);
+    bool check;
+    if (sh.get() == nullptr) {
+      check = true;
+    }
+    else check = false;
+    sh.
+    EXPECT_EQ(check, true);
 }*/
 
 TEST(Constructor, raw) {
@@ -22,17 +28,24 @@ TEST(Constructor, copy) {
     EXPECT_EQ(sh1.get(), iter);
 }
 
-/*TEST(Constructor, move) {
+TEST(Constructor, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1(std::move(sh));
-    EXPECT_EQ(*sh1.get(), 5);
-}*/
+    EXPECT_EQ(sh1.get(), iter);
+}
 
 TEST(Operator, copy) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     const SharedPtr<int>& sh1 = sh;
+    EXPECT_EQ(sh1.get(), iter);
+}
+
+TEST(Operator, move) {
+    int* iter = new int (5);
+    SharedPtr<int> sh(iter);
+    SharedPtr<int> sh1 = std::move(sh);
     EXPECT_EQ(sh1.get(), iter);
 }
 
@@ -83,4 +96,20 @@ TEST(Function, use_count) {
     EXPECT_EQ(sh.use_count(), 2);
 }
 
+TEST(control_block, constructor) {
+    control_block block;
+    EXPECT_EQ(block.get_counter(), 0);
+}
 
+TEST(control_block, increment) {
+    control_block block;
+    block.increment();
+    EXPECT_EQ(block.get_counter(), 1);
+}
+
+TEST(control_block, decrement) {
+    control_block block;
+    block.increment();
+    block.decrement();
+    EXPECT_EQ(block.get_counter(), 0);
+}

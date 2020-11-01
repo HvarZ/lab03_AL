@@ -12,8 +12,10 @@
 using std::cout;
 using std::endl;
 
-struct control_block {
+class control_block {
+ private:
   std::atomic_uint counter;
+ public:
   control_block() noexcept;
   void increment() noexcept;
   void decrement() noexcept;
