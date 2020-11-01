@@ -22,11 +22,12 @@ TEST(Constructor, copy) {
     EXPECT_EQ(sh1.get(), iter);
 }
 
-/*TEST(Constructor, move) {
+TEST(Constructor, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
-    SharedPtr<int> sh1(sh);
-}*/
+    SharedPtr<int> sh1 = std::move(sh);
+    EXPECT_EQ(*sh1.get(), 5);
+}
 
 TEST(Operator, copy) {
     int* iter = new int (5);
@@ -81,4 +82,5 @@ TEST(Function, use_count) {
     [[maybe_unused]] SharedPtr<int> sh2(sh);
     EXPECT_EQ(sh.use_count(), 2);
 }
+
 
