@@ -78,13 +78,13 @@ TEST(Function, swap) {
     EXPECT_EQ(sh.get(), iter2);
 }
 
-TEST(Function, reset) {
+/*TEST(Function, reset) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh2;
     sh.swap(sh2);
     EXPECT_EQ(sh.get(), nullptr);
-}
+}*/
 
 TEST(Function, reset_it) {
     int* iter = new int (5);
