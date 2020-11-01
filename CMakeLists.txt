@@ -26,20 +26,17 @@ string(APPEND CMAKE_CXX_FLAGS " -Wshadow -Wnon-virtual-dtor")
 hunter_add_package(GTest)
 find_package(GTest CONFIG REQUIRED)
 
-add_library(shared_ptr STATIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/sources/source.cpp
-        )
+add_library(shared_ptr INTERFACE)
+
 add_executable(tests
         ${CMAKE_CURRENT_SOURCE_DIR}/tests/test.cpp
         )
 
 
 target_include_directories(shared_ptr
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+        INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/include
         )
-target_include_directories(tests
-        PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
-        )
+
 target_link_libraries(tests GTest::main shared_ptr)
 
 
