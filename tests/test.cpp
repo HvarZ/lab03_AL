@@ -30,14 +30,14 @@ TEST(Constructor, move) {
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = sh;
     EXPECT_EQ(sh1.get(), iter);
-}*/
+}
 
 TEST(Operator, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1 = std::move(sh);
     EXPECT_EQ(sh1.get(), iter);
-}
+} */
 
 /*TEST(Operator, Bool) {
     SharedPtr<int> sh2;
