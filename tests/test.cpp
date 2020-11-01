@@ -22,12 +22,12 @@ TEST(Constructor, copy) {
     EXPECT_EQ(sh1.get(), iter);
 }
 
-TEST(Constructor, move) {
+/*TEST(Constructor, move) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     SharedPtr<int> sh1(std::move(sh));
     EXPECT_EQ(*sh1.get(), 5);
-}
+}*/
 
 TEST(Operator, copy) {
     int* iter = new int (5);
