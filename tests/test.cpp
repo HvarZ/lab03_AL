@@ -50,7 +50,7 @@ TEST(Operator, dereferencing) {
     int* iter = new int (5);
     SharedPtr<int> sh(iter);
     EXPECT_EQ(*sh, 5);
-}*/
+}
 
 TEST(Operator, pointer) {
     int* iter = new int (5);
@@ -63,7 +63,7 @@ TEST(Operator, equality) {
     SharedPtr<int> sh(iter);
     const SharedPtr<int>& sh2(sh);
     EXPECT_EQ(sh == sh2, true);
-}
+}*/
 
 TEST(Function, get) {
     int* iter = new int (5);
