@@ -25,7 +25,7 @@ class control_block {
 template <typename T>
 class SharedPtr {
  private:
-  T* shared_ptr;
+  T* _ptr;
   control_block* cb;
 
  public:
@@ -67,41 +67,31 @@ auto control_block::get_counter() const noexcept -> size_t {
 }
 
 template <typename T>
-SharedPtr<T>::SharedPtr() noexcept {
-  shared_ptr = nullptr;
-  cb = nullptr;
-}
+SharedPtr<T>::SharedPtr() noexcept : _ptr(nullptr), cb(nullptr) {}
 
 template <typename T>
-SharedPtr<T>::SharedPtr(T* ptr)  {
-  shared_ptr = ptr;
-  cb = new control_block;
-}
+SharedPtr<T>::SharedPtr(T* ptr) : _ptr(ptr), cb(new control_block){}
 
 template <typename T>
-SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept {
-  shared_ptr = r.shared_ptr;
-  cb = r.cb;
+SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept : _ptr(r._ptr), cb(r.cb){
   if (cb) {
     cb->increment();
   }
 }
 
 template <typename T>
-SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept {
-  shared_ptr = r.shared_ptr;
-  cb = r.cb;
+SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept : _ptr(r._ptr), cb(r.cb) {
+  r.cb = nullptr;
   r.cb = nullptr;
 }
 
 template <typename T>
 SharedPtr<T>::~SharedPtr<T>() {
-    if (cb) {
-      cb->decrement();
-      if (cb->get_counter() == 0) {
-        delete shared_ptr;
+    if (cb && cb->get_counter() == 1) {
+      if (_ptr) {
+        delete _ptr;
+      }
         delete cb;
-    }
   }
 }
 
@@ -125,29 +115,29 @@ auto SharedPtr<T>::operator=(SharedPtr<T> &&r) noexcept -> SharedPtr<T> & {
 
 template <typename T>
 auto SharedPtr<T>::operator==(const SharedPtr<T> &r) const -> bool {
-  return shared_ptr == r.shared_ptr;
+  return _ptr == r._ptr;
 }
 
 
 template <typename T>
 SharedPtr<T>::operator bool() const noexcept {
-  return shared_ptr != nullptr;
+  return _ptr != nullptr;
 }
 
 
 template <typename T>
 auto SharedPtr<T>::operator*() const noexcept -> T & {
-  return *shared_ptr;
+  return *_ptr;
 }
 
 template <typename T>
 auto SharedPtr<T>::operator->() const noexcept -> T * {
-  return shared_ptr;
+  return _ptr;
 }
 
 template <typename T>
 auto SharedPtr<T>::get() const -> T * {
-  return shared_ptr;
+  return _ptr;
 }
 
 
@@ -165,7 +155,7 @@ void SharedPtr<T>::reset(T *ptr) {
 
 template <typename T>
 void SharedPtr<T>::swap(SharedPtr<T> &r) {
-  std::swap(shared_ptr, r.shared_ptr);
+  std::swap(_ptr, r._ptr);
   std::swap(cb, r.cb);
 }
 
@@ -173,6 +163,5 @@ template <typename T>
 auto SharedPtr<T>::use_count() const -> size_t {
   return cb ? cb->get_counter() : 0;
 }
-
 
 #endif // INCLUDE_HEADER_HPP_
