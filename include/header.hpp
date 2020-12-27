@@ -88,9 +88,12 @@ SharedPtr<T>::SharedPtr(SharedPtr<T> &&r) noexcept : _ptr(r._ptr), cb(r.cb) {
 
 template <typename T>
 SharedPtr<T>::~SharedPtr<T>() {
-    if (cb && cb->get_counter() == 1) {
-        delete _ptr;
-        delete cb;
+  if (cb) {
+    cb->decrement();
+    if (cb->get_counter() == 0) {
+      delete _ptr;
+      delete cb;
+    }
   }
 }
 
