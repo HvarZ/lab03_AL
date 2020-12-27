@@ -73,7 +73,8 @@ template <typename T>
 SharedPtr<T>::SharedPtr(T* ptr) : _ptr(ptr), cb(new control_block){}
 
 template <typename T>
-SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept : _ptr(r._ptr), cb(r.cb){
+SharedPtr<T>::SharedPtr(const SharedPtr<T> &r) noexcept : _ptr(r._ptr),
+                                                          cb(r.cb){
   if (cb) {
     cb->increment();
   }
